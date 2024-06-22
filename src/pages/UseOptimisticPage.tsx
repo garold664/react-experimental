@@ -5,6 +5,10 @@ type Todo = {
   text: string;
 };
 
+type OptimisticTodo = Todo & {
+  pending?: boolean;
+};
+
 const timerPromise = (delay: number) => {
   return new Promise((res) => setTimeout(res, delay));
 };
@@ -18,7 +22,7 @@ export default function UseOptimisticPage() {
 
   const [optimisticTodos, addOptimisticTodo] = useOptimistic(
     todos,
-    (currentState: Todo[], optimisticTodoValue: Todo) => {
+    (currentState: OptimisticTodo[], optimisticTodoValue: OptimisticTodo) => {
       return [...currentState, optimisticTodoValue];
     }
   );
@@ -37,7 +41,7 @@ export default function UseOptimisticPage() {
   //# with action
   const onSubmit = async (formData: FormData) => {
     const text = formData.get('text') as string;
-    addOptimisticTodo({ id: Date.now(), text });
+    addOptimisticTodo({ id: Date.now(), text, pending: true });
     await timerPromise(2000);
     setTodos((prevState) => {
       return [...prevState, { id: Date.now(), text }];
@@ -61,7 +65,9 @@ export default function UseOptimisticPage() {
       </form>
       <ul>
         {optimisticTodos.map((todo) => (
-          <li key={todo.id}>{todo.text}</li>
+          <li key={todo.id}>
+            {todo.text} {todo.pending && <span className="pending">⌛</span>}
+          </li>
         ))}
       </ul>
     </>
