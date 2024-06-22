@@ -1,33 +1,46 @@
 import React, { useState, useOptimistic, startTransition } from 'react';
 
+type Todo = {
+  id: number;
+  text: string;
+};
+
 const timerPromise = (delay: number) => {
   return new Promise((res) => setTimeout(res, delay));
 };
 
 export default function UseOptimisticPage() {
-  const [todos, setTodos] = useState(['buy pc', 'draw a picture']);
-  const [text, setText] = useState('');
+  const [todos, setTodos] = useState([
+    { id: 1, text: 'buy pc' },
+    { id: 2, text: 'draw a picture' },
+  ]);
+  // const [text, setText] = useState('');
 
   const [optimisticTodos, addOptimisticTodo] = useOptimistic(
     todos,
-    (currentState: string[], optimisticTodoValue: string) => {
+    (currentState: Todo[], optimisticTodoValue: Todo) => {
       return [...currentState, optimisticTodoValue];
     }
   );
 
-  const onSubmit = async (formData: FormData) => {
-    // startTransition(async () => {
-    //   addOptimisticTodo(text);
-    //   await timerPromise(2000);
-    //   setTodos((prevState) => {
-    //     return [...prevState, text];
-    //   });
-    // });
+  //# with startTransition
+  // const onSubmit = () => {
+  //   startTransition(async () => {
+  //     addOptimisticTodo(text);
+  //     await timerPromise(2000);
+  //     setTodos((prevState) => {
+  //       return [...prevState, text];
+  //     });
+  //   });
+  // };
 
-    addOptimisticTodo(formData.get('text') as string);
+  //# with action
+  const onSubmit = async (formData: FormData) => {
+    const text = formData.get('text') as string;
+    addOptimisticTodo({ id: Date.now(), text });
     await timerPromise(2000);
     setTodos((prevState) => {
-      return [...prevState, text];
+      return [...prevState, { id: Date.now(), text }];
     });
   };
   return (
@@ -35,11 +48,12 @@ export default function UseOptimisticPage() {
       <h1>UseOptimisticPage</h1>
       <h2>Start editing to see some magic happen!</h2>
 
+      {/* <form> */}
       <form action={onSubmit}>
         <input
           name="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          // value={text}
+          // onChange={(e) => setText(e.target.value)}
           type="text"
         />
         {/* <button onClick={onSubmit}>add todo</button> */}
@@ -47,7 +61,7 @@ export default function UseOptimisticPage() {
       </form>
       <ul>
         {optimisticTodos.map((todo) => (
-          <li key={todo}>{todo}</li>
+          <li key={todo.id}>{todo.text}</li>
         ))}
       </ul>
     </>
