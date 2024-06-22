@@ -1,4 +1,5 @@
 import './App.css';
+import UseDefferedValue from './pages/UseDefferedValue/UseDefferedValue';
 import UseOptimisticPage from './pages/UseOptimisticPage';
 import UseTransition from './pages/UseTransition';
 
@@ -7,6 +8,7 @@ function App() {
     <>
       <UseOptimisticPage />
       <UseTransition />
+      <UseDefferedValue />
     </>
   );
 }
