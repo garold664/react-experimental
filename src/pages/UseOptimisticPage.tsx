@@ -1,10 +1,6 @@
-import React, {
-  useState,
-  // experimental_useOptimistic as useOptimistic,
-} from 'react';
+import React, { useState, useOptimistic, startTransition } from 'react';
 
-import { useOptimistic } from 'react';
-const timerPromise = (delay) => {
+const timerPromise = (delay: number) => {
   return new Promise((res) => setTimeout(res, delay));
 };
 
@@ -12,12 +8,20 @@ export default function UseOptimisticPage() {
   const [todos, setTodos] = useState(['buy pc', 'draw a picture']);
   const [text, setText] = useState('');
 
-  const [optimisticTodos, setOptimisticTodos] = useOptimistic(todos);
+  const [optimisticTodos, addOptimisticTodo] = useOptimistic(
+    todos,
+    (currentState: string[], optimisticTodoValue: string) => {
+      return [...currentState, optimisticTodoValue];
+    }
+  );
 
-  const onSubmit = async () => {
-    await timerPromise(2000);
-    setTodos((prevState) => {
-      return [...prevState, text];
+  const onSubmit = () => {
+    startTransition(async () => {
+      addOptimisticTodo(text);
+      await timerPromise(2000);
+      setTodos((prevState) => {
+        return [...prevState, text];
+      });
     });
   };
   return (
@@ -32,7 +36,7 @@ export default function UseOptimisticPage() {
       />
       <button onClick={onSubmit}>add todo</button>
       <ul>
-        {todos.map((todo) => (
+        {optimisticTodos.map((todo) => (
           <li key={todo}>{todo}</li>
         ))}
       </ul>
