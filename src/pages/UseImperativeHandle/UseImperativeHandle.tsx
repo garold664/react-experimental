@@ -1,9 +1,13 @@
 import React, { useRef, useState } from 'react';
 import CustomInput from './CustomInput';
 
+export type RefMethods = {
+  alertHi: () => void;
+};
+
 export default function UseImperativeHandle() {
   const [value, setValue] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<RefMethods>(null);
   return (
     <>
       <h1>UseImperativeHandle</h1>
@@ -16,10 +20,10 @@ export default function UseImperativeHandle() {
       <button
         onClick={() => {
           // inputRef.current?.focus();
-          inputRef.current.alertHi();
+          inputRef.current?.alertHi();
         }}
       >
-        Focus
+        Say hi
       </button>
     </>
   );

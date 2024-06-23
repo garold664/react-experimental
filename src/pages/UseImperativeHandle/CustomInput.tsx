@@ -3,8 +3,9 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from 'react';
+import { RefMethods } from './UseImperativeHandle';
 
-export default forwardRef<HTMLInputElement, ComponentPropsWithoutRef<'input'>>(
+export default forwardRef<RefMethods, ComponentPropsWithoutRef<'input'>>(
   function CustomInput({ ...props }: ComponentPropsWithoutRef<'input'>, ref) {
     useImperativeHandle(
       ref,
@@ -13,6 +14,6 @@ export default forwardRef<HTMLInputElement, ComponentPropsWithoutRef<'input'>>(
       },
       []
     );
-    return <input ref={ref} {...props} />;
+    return <input {...props} />;
   }
 );
