@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import CustomInput from './CustomInput';
 
-export type RefMethods = {
+type RefMethods = {
   alertHi: () => void;
 };
 

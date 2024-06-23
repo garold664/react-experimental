@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import ConfirmationModal from './ConfirmationModal';
 
-export type RefMethods = {
+type RefMethods = {
   focusCloseBtn: () => void;
   focusDenyBtn: () => void;
   focusConfirmBtn: () => void;

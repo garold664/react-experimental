@@ -1,9 +1,9 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import { RefMethods } from './UseImperativeHandle2';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 
 type ModalProps = { isOpen: boolean; onClose: () => void };
 
-export default forwardRef<RefMethods, ModalProps>(function ConfirmationModal(
+// export default forwardRef<RefMethods, ModalProps>(function ConfirmationModal(
+export default forwardRef(function ConfirmationModal(
   { isOpen, onClose }: ModalProps,
   ref
 ) {
