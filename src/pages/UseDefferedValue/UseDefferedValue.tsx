@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import List from './List';
+import BlockWithScroll from '../../components/BlockWithScroll';
 
 export default function UseDefferedValue() {
   const [input, setInput] = useState('');
@@ -12,7 +13,9 @@ export default function UseDefferedValue() {
         onChange={(e) => setInput(e.target.value)}
         placeholder="input"
       />
-      <List input={input} />
+      <BlockWithScroll>
+        <List input={input} />
+      </BlockWithScroll>
     </>
   );
 }

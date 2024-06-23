@@ -1,4 +1,5 @@
 import React, { useState, useTransition } from 'react';
+import BlockWithScroll from '../components/BlockWithScroll';
 
 const LIST_SIZE = 1 * 10 ** 4;
 
@@ -33,11 +34,15 @@ export default function UseTransition() {
     <>
       <h1>UseTransition</h1>
       <input type="text" value={input} onChange={handleChange} />
-      {isPending ? (
-        <div>Loading...</div>
-      ) : (
-        list.map((item: string, index: number) => <div key={index}>{item}</div>)
-      )}
+      <BlockWithScroll>
+        {isPending ? (
+          <div>Loading...</div>
+        ) : (
+          list.map((item: string, index: number) => (
+            <div key={index}>{item}</div>
+          ))
+        )}
+      </BlockWithScroll>
     </>
   );
 }
