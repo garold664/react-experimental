@@ -1,7 +1,7 @@
-import React, { ComponentPropsWithRef } from 'react';
+import React, { ComponentPropsWithoutRef, forwardRef } from 'react';
 
-export default function CustomInput({
-  ...props
-}: ComponentPropsWithRef<'input'>) {
-  return <input {...props} />;
-}
+export default forwardRef<HTMLInputElement, ComponentPropsWithoutRef<'input'>>(
+  function CustomInput({ ...props }: ComponentPropsWithoutRef<'input'>, ref) {
+    return <input ref={ref} {...props} />;
+  }
+);
