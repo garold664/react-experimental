@@ -15,7 +15,8 @@ export default function UseImperativeHandle() {
       <br />
       <button
         onClick={() => {
-          inputRef.current?.focus();
+          // inputRef.current?.focus();
+          inputRef.current.alertHi();
         }}
       >
         Focus
